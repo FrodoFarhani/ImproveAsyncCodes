@@ -26,17 +26,28 @@ app.get('/messages', (req, res) => {
 
 app.post('/messages', async (req, res) => {
 
-   
+   try {
+       //throw 'some err';
         var message = new Message(req.body)
-
         var savedMessage=await message.save()
         var cencored=await Message.findOne({message:"badword"});
         if(cencored){                    
-            await Message.remove({_id:cencored.id});// err here deleted because in the care of err catch would handle it
+        await Message.remove({_id:cencored.id});// err here deleted because in the care of err catch would handle it
         }else{
-            io.emit("message",req.body);
+        io.emit("message",req.body);
         }
         res.sendStatus(200)
+   } catch (error) {
+        res.sendStatus(500);
+        console.log(error);
+   }finally{
+       /**
+        * if we want to log something or shutdown the db connection or sth else that we need 
+        * to do after all we can put it in finally. it will be called after each of try or catch happened
+        */
+       console.log("post message called!");
+       
+   }
     
     /* .catch((err)=>{
         res.status(500);
