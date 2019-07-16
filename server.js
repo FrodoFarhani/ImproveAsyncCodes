@@ -24,6 +24,29 @@ app.get('/messages', (req, res) => {
     })
 })
 
+app.get('/messages/:user', (req, res) => {
+    
+    Message.find({name:req.params.user}, (err, messages) => {
+        res.send(messages)
+    })
+})
+
+app.delete('/messages/:user',async (req, res) => {
+    
+    try {
+        var user= await Message.findOne({name:req.params.user});
+        if(user){
+        await Message.remove({_id:user.id});
+        res.sendStatus(200);
+    }else{
+        res.sendStatus(404);
+    }
+    } catch (error) {
+        res.sendStatus(500);
+    }
+    
+})
+
 app.post('/messages', async (req, res) => {
 
    try {
