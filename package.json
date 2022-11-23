@@ -14,7 +14,7 @@
     "body-parser": "^1.18.2",
     "express": "^4.15.5",
     "mongoose": "^4.11.13",
-    "socket.io": "^2.0.3"
+    "socket.io": "^2.5.0"
   },
   "devDependencies": {
     "jasmine": "^3.4.0",
